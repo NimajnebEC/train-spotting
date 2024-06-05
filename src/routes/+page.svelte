@@ -30,6 +30,15 @@
 
 		classification.value = "";
 	}
+
+	function clear() {
+		if (!window.confirm("Clear all sightings?")) return;
+		if (!window.confirm("Are you sure?")) return;
+		if (!window.confirm("Absolutely Certain?")) return;
+		if (!window.confirm("This is irreversable!!!")) return;
+		db.sightings.clear();
+		sightings = [];
+	}
 </script>
 
 <form on:submit|preventDefault={submit} bind:this={form}>
@@ -49,7 +58,10 @@
 		placeholder="700 128"
 		bind:this={classification}
 	/>
-	<button type="submit">Submit</button>
+	<div>
+		<button type="submit">Submit</button>
+		<button on:click|preventDefault={clear}><Fa icon={faTrash} /></button>
+	</div>
 </form>
 
 <hr />
