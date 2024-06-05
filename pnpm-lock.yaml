@@ -10,9 +10,9 @@ dependencies:
     version: 4.0.7
 
 devDependencies:
-  '@fortawesome/fontawesome-free':
-    specifier: ^6.5.2
-    version: 6.5.2
+  '@fortawesome/free-solid-svg-icons':
+    specifier: ^6.5.1
+    version: 6.5.1
   '@sveltejs/adapter-static':
     specifier: ^3.0.1
     version: 3.0.1(@sveltejs/kit@2.0.0)
@@ -1521,10 +1521,18 @@ packages:
     dev: true
     optional: true
 
-  /@fortawesome/fontawesome-free@6.5.2:
-    resolution: {integrity: sha512-hRILoInAx8GNT5IMkrtIt9blOdrqHOnPBH+k70aWUAqPZPgopb9G5EQJFpaBx/S8zp2fC+mPW349Bziuk1o28Q==}
+  /@fortawesome/fontawesome-common-types@6.5.1:
+    resolution: {integrity: sha512-GkWzv+L6d2bI5f/Vk6ikJ9xtl7dfXtoRu3YGE6nq0p/FFqA1ebMOAWg3XgRyb0I6LYyYkiAo+3/KrwuBp8xG7A==}
     engines: {node: '>=6'}
     requiresBuild: true
+    dev: true
+
+  /@fortawesome/free-solid-svg-icons@6.5.1:
+    resolution: {integrity: sha512-S1PPfU3mIJa59biTtXJz1oI0+KAXW6bkAb31XKhxdxtuXDiUIFsih4JR1v5BbxY7hVHsD1RKq+jRkVRaf773NQ==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 6.5.1
     dev: true
 
   /@jridgewell/gen-mapping@0.3.5:

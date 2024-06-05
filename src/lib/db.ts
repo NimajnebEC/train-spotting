@@ -4,6 +4,7 @@ export interface Sighting {
 	id: number;
 	date: Date;
 	classification: string;
+	location: string;
 }
 
 export const db = new Dexie("spotter") as Dexie & {
@@ -11,5 +12,5 @@ export const db = new Dexie("spotter") as Dexie & {
 };
 
 db.version(1).stores({
-	sightings: "++id, date, classification",
+	sightings: "++id, date, location, classification",
 });
