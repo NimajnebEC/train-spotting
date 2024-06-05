@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { pwaInfo } from "virtual:pwa-info";
 	import { onMount } from "svelte";
-	import "$lib/global.scss";
 	import "greset";
+
+	import "$lib/global.scss";
 
 	onMount(async () => {
 		if (pwaInfo) {
@@ -29,6 +30,9 @@
 
 <svelte:head>
 	{@html webManifestLink}
+	<title>Spotter</title>
 </svelte:head>
 
-<slot />
+<main>
+	<slot />
+</main>

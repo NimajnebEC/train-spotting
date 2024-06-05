@@ -1,8 +1,76 @@
 :root {
 	--bg-1: #232222;
+
+	--a-1: #9955ff;
+	--a-2: #b685ff;
 }
 
 body {
 	background-color: var(--bg-1);
 	color: white;
+
+	flex-direction: column;
+	display: flex;
+}
+
+main {
+	margin: 10px max(10px, 10vw);
+}
+
+hr {
+	margin: 20px 0;
+	color: #ffffff48;
+}
+
+input[type="text"] {
+	transition: border-color 250ms;
+	background-color: transparent;
+	border: 2px solid white;
+	border-radius: 5px;
+	color: white;
+	outline: none;
+	padding: 5px;
+
+	&:focus-within {
+		border-color: var(--a-2);
+	}
+}
+
+button {
+	transition: background-color 250ms;
+	background-color: var(--a-1);
+	width: fit-content;
+	border-radius: 5px;
+	padding: 5px 10px;
+	color: white;
+	border: none;
+
+	&:focus-within,
+	&:hover {
+		background-color: var(--a-2);
+	}
+}
+
+table {
+	border: none;
+	border-collapse: collapse;
+
+	tr {
+		border: none;
+	}
+
+	td {
+		border: none;
+		padding: 5px 10px;
+		border-left: 2px solid #ffffff48;
+		border-right: 2px solid #ffffff48;
+
+		&:first-child {
+			border-left: none;
+		}
+
+		&:last-child {
+			border-right: none;
+		}
+	}
 }
