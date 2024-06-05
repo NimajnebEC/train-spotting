@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { pwaInfo } from "virtual:pwa-info";
 	import { onMount } from "svelte";
+	import "$lib/global.scss";
 	import "greset";
 
 	onMount(async () => {
