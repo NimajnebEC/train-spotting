@@ -30,7 +30,6 @@
 
 <svelte:head>
 	{@html webManifestLink}
-	<title>Spotter</title>
 </svelte:head>
 
 <main>
