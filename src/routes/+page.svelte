@@ -39,6 +39,25 @@
 		db.sightings.clear();
 		sightings = [];
 	}
+
+	async function exportSightings() {
+		let csv = (await db.sightings.toArray()).map((s) => Object.values(s).join(",")).join("\n");
+
+		const file = new File([csv], "sightings-export.csv", {
+			type: "text/plain",
+		});
+
+		const link = document.createElement("a");
+		const url = URL.createObjectURL(file);
+
+		link.href = url;
+		link.download = file.name;
+		document.body.appendChild(link);
+		link.click();
+
+		document.body.removeChild(link);
+		window.URL.revokeObjectURL(url);
+	}
 </script>
 
 <form on:submit|preventDefault={submit} bind:this={form}>
@@ -60,6 +79,7 @@
 	/>
 	<div>
 		<button type="submit">Submit</button>
+		<button on:click|preventDefault={exportSightings}>Export</button>
 		<button on:click|preventDefault={clear}><Fa icon={faTrash} /></button>
 	</div>
 </form>
