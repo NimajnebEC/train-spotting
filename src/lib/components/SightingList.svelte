@@ -24,7 +24,7 @@
 				<td>{sighting.classification}</td>
 				<td>{sighting.location}</td>
 				<td
-					>{new Date(sighting.date).toLocaleDateString("en-uk", {
+					>{new Date(Number(sighting._id)).toLocaleDateString("en-uk", {
 						year: "numeric",
 						month: "numeric",
 						day: "numeric",
