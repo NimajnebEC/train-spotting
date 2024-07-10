@@ -1,8 +1,9 @@
 <script lang="ts">
+	import type { SightingDoc } from "./types";
 	import { onChange } from "$lib/util";
 	import { local } from "$lib/pouchdb";
 
-	let sightings: Record<string, any>[] = [];
+	let days: [string, SightingDoc[]][] = [];
 
 	onChange(async () => {
 		await local.createIndex({ index: { fields: ["type", "_id"] } });
@@ -10,46 +11,64 @@
 		const result = await local.find({
 			selector: { type: "sighting", _id: { $gte: null } },
 			sort: [{ _id: "desc" }],
-			limit: 50,
 		});
 
-		sightings = result.docs;
+		days = Object.entries(
+			Object.groupBy<number, SightingDoc>(result.docs, (i) => {
+				const day = new Date(Number(i._id));
+				day.setHours(0);
+				day.setMinutes(0);
+				day.setSeconds(0);
+				day.setMilliseconds(0);
+				return day.getTime();
+			}),
+		).map(([k, v]) => [
+			new Date(Number(k)).toLocaleDateString("en-uk", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+			}),
+			v,
+		]) as [string, SightingDoc[]][];
+
+		console.log(days);
 	});
 </script>
 
-<div class="table-container">
-	<table>
+<div class="list">
+	{#each days as [day, sightings]}
+		<div class="heading">{day}</div>
 		{#each sightings as sighting}
-			<tr>
-				<td>{sighting.classification}</td>
-				<td>{sighting.location}</td>
-				<td
-					>{new Date(Number(sighting._id)).toLocaleDateString("en-uk", {
-						year: "numeric",
-						month: "numeric",
-						day: "numeric",
-						hour: "numeric",
-						minute: "numeric",
-					})}</td
-				>
-			</tr>
+			<div class="identity">{sighting.classification}</div>
+			<div class="location">{sighting.location}</div>
 		{/each}
-	</table>
+	{/each}
 </div>
 
 <style lang="scss">
-	.table-container {
-		padding-bottom: 10px;
-		overflow-x: auto;
-		max-width: 100%;
-	}
+	.list {
+		grid-template-rows: repeat(auto, auto);
+		grid-template-columns: repeat(2, auto);
+		display: grid;
+		gap: 5px;
 
-	table {
-		margin-top: 10px;
-		width: 100%;
+		.heading {
+			grid-area: auto / 1 / auto / 3;
+			background-color: var(--bg-2);
+			border-radius: 5px;
+			padding: 5px 5px;
+		}
 
-		td {
+		.identity {
+			padding-left: 5px;
+		}
+
+		.location {
+			text-overflow: ellipsis;
 			white-space: nowrap;
+			padding-right: 5px;
+			text-align: right;
+			overflow: hidden;
 		}
 	}
 </style>

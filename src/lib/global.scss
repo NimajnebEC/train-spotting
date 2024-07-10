@@ -1,6 +1,6 @@
 :root {
 	--bg-1: #232222;
-	--bg-2: #928b8b;
+	--bg-2: #808080;
 
 	--a-1: #9955ff;
 	--a-2: #b685ff;
@@ -57,30 +57,6 @@ button {
 	&.secondary {
 		--button-idle: var(--bg-2);
 		--button-active: var(--a-1);
-	}
-}
-
-table {
-	border: none;
-	border-collapse: collapse;
-
-	tr {
-		border: none;
-	}
-
-	td {
-		border: none;
-		padding: 5px 10px;
-		border-left: 2px solid #ffffff48;
-		border-right: 2px solid #ffffff48;
-
-		&:first-child {
-			border-left: none;
-		}
-
-		&:last-child {
-			border-right: none;
-		}
 	}
 }
 
