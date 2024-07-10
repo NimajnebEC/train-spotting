@@ -6,29 +6,34 @@
 	import Fa from "svelte-fa";
 
 	let location: string = window.localStorage.getItem("location") ?? "";
-	let inputs: { value: string; simple: boolean }[] = [];
+	let inputs: { id: string; simple: boolean; bind?: HTMLInputElement }[] = [];
 
-	$: if (!inputs.some((i) => i.value == "")) inputs = [...inputs, { value: "", simple: true }];
 	$: window.localStorage.setItem("location", location);
 
-	async function submit() {
-		const a = await local.bulkDocs(
-			inputs
-				.filter((v) => v.value != "")
-				.map((v, i) => ({
-					_id: (new Date().getTime() + i).toString(),
-					classification: v.value,
-					type: "sighting",
-					location,
-				})),
-		);
+	function updateInputs() {
+		if (!inputs.some((i) => i.bind?.value == ""))
+			inputs = [...inputs, { id: crypto.randomUUID(), simple: true }];
+	}
 
-		inputs = [];
+	function keyDown(e: KeyboardEvent, i: number) {
+		if (e.key == "Enter" && i < inputs.length - 1) inputs[i + 1].bind?.focus();
+		else if (e.key == "Backspace" && inputs[i].bind?.value == "" && inputs.length > 1) {
+			if (i != inputs.length - 1)
+				inputs = [...inputs.slice(0, i), ...inputs.slice(i + 1, inputs.length)];
+			inputs[Math.max(0, i - 1)].bind?.focus();
+		}
 	}
 
 	function clear() {
 		if (inputs.length > 0 && confirm("Clear input entries?")) inputs = [];
 	}
+
+	function toggle(i: number) {
+		inputs[i].simple = !inputs[i].simple;
+		inputs[i].bind?.focus();
+	}
+
+	updateInputs();
 </script>
 
 <div class="container">
@@ -40,16 +45,18 @@
 	<label>
 		Sightings:
 		<div class="container">
-			{#each inputs as input}
+			{#each inputs as input, i (input.id)}
 				<span class="input-container" transition:slide={{ easing: sineIn, duration: 150 }}>
 					<input
 						autocomplete="off"
-						value={input.value}
 						placeholder="700128"
+						bind:this={input.bind}
+						on:input={updateInputs}
+						on:keydown={(e) => keyDown(e, i)}
+						pattern={input.simple ? "\\d*" : ".+"}
 						type={input.simple ? "number" : "text"}
-						on:input={(e) => (input.value = e.currentTarget.value)}
 					/>
-					<button on:click|preventDefault={() => (input.simple = !input.simple)} class="secondary">
+					<button on:click|preventDefault={() => toggle(i)} class="secondary">
 						<Fa icon={input.simple ? faHashtag : faFont} />
 					</button>
 				</span>
@@ -57,7 +64,7 @@
 		</div>
 	</label>
 	<span>
-		<button on:click={submit}>Submit</button>
+		<button>Submit</button>
 		<button on:click={clear}><Fa icon={faTrash} /></button>
 	</span>
 </div>
