@@ -26,11 +26,28 @@
 
 	function clear() {
 		if (inputs.length > 0 && confirm("Clear input entries?")) inputs = [];
+		updateInputs();
 	}
 
 	function toggle(i: number) {
 		inputs[i].simple = !inputs[i].simple;
 		inputs[i].bind?.focus();
+	}
+
+	async function submit() {
+		await local.bulkDocs(
+			inputs
+				.filter((e) => e.bind?.value != "")
+				.map((e, i) => ({
+					_id: (new Date().getTime() + i).toString(),
+					classification: e.bind!.value,
+					type: "sighting",
+					location,
+				})),
+		);
+
+		inputs = [];
+		updateInputs();
 	}
 
 	updateInputs();
@@ -64,7 +81,7 @@
 		</div>
 	</label>
 	<span>
-		<button>Submit</button>
+		<button on:click={submit}>Submit</button>
 		<button on:click={clear}><Fa icon={faTrash} /></button>
 	</span>
 </div>
