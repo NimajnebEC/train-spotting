@@ -4,6 +4,7 @@
 	import "greset";
 
 	import "$lib/global.scss";
+	import Header from "$lib/components/header/Header.svelte";
 
 	onMount(async () => {
 		if (pwaInfo) {
@@ -32,6 +33,7 @@
 	{@html webManifestLink}
 </svelte:head>
 
+<Header />
 <main>
 	<slot />
 </main>

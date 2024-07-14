@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { SightingDoc } from "./types";
 	import { onChange } from "$lib/util";
-	import { local } from "$lib/pouchdb";
+	import { db } from "$lib/pouchdb";
 
 	let days: [string, SightingDoc[]][] = [];
 
 	onChange(async () => {
-		await local.createIndex({ index: { fields: ["type", "_id"] } });
+		await db.createIndex({ index: { fields: ["type", "_id"] } });
 
-		const result = await local.find({
+		const result = await db.find({
 			selector: { type: "sighting", _id: { $gte: null } },
 			sort: [{ _id: "desc" }],
 		});
@@ -30,9 +30,7 @@
 			}),
 			v,
 		]) as [string, SightingDoc[]][];
-
-		console.log(days);
-	});
+	}, true);
 </script>
 
 <div class="list">

@@ -39,25 +39,33 @@ input[type="number"] {
 }
 
 button {
-	--button-idle: var(--a-1);
-	--button-active: var(--a-2);
+	color: inherit;
+	border: none;
+	padding: 0;
+}
 
+%button {
 	background-color: var(--button-idle);
 	transition: background-color 250ms;
 	width: fit-content;
 	border-radius: 5px;
 	padding: 5px 10px;
-	color: white;
-	border: none;
 
 	&:active {
 		background-color: var(--button-active);
 	}
+}
 
-	&.secondary {
-		--button-idle: var(--bg-2);
-		--button-active: var(--a-1);
-	}
+button.primary {
+	--button-idle: var(--a-1);
+	--button-active: var(--a-2);
+	@extend %button;
+}
+
+button.secondary {
+	--button-idle: var(--bg-2);
+	--button-active: var(--a-1);
+	@extend %button;
 }
 
 label {

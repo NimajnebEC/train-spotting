@@ -2,7 +2,7 @@
 	import { faHashtag, faFont, faTrash } from "@fortawesome/free-solid-svg-icons";
 	import { slide } from "svelte/transition";
 	import { sineIn } from "svelte/easing";
-	import { local } from "$lib/pouchdb";
+	import { db } from "$lib/pouchdb";
 	import Fa from "svelte-fa";
 
 	let location: string = window.localStorage.getItem("location") ?? "";
@@ -35,7 +35,7 @@
 	}
 
 	async function submit() {
-		await local.bulkDocs(
+		await db.bulkDocs(
 			inputs
 				.filter((e) => e.bind?.value != "")
 				.map((e, i) => ({
@@ -73,7 +73,7 @@
 						pattern={input.simple ? "\\d*" : ".+"}
 						type={input.simple ? "number" : "text"}
 					/>
-					<button on:click|preventDefault={() => toggle(i)} class="secondary">
+					<button class="secondary" on:click|preventDefault={() => toggle(i)}>
 						<Fa icon={input.simple ? faHashtag : faFont} />
 					</button>
 				</span>
@@ -81,8 +81,8 @@
 		</div>
 	</label>
 	<span>
-		<button on:click={submit}>Submit</button>
-		<button on:click={clear}><Fa icon={faTrash} /></button>
+		<button class="primary" on:click={submit}>Submit</button>
+		<button class="primary" on:click={clear}><Fa icon={faTrash} /></button>
 	</span>
 </div>
 
