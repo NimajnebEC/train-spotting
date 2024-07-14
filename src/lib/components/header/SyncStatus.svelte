@@ -44,6 +44,7 @@
 	}
 
 	async function connect() {
+		if (credentials.value === null) return;
 		const { address, username, password } = credentials.value;
 
 		remote = new PouchDB(address, { auth: { username, password } });
