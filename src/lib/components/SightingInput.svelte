@@ -93,10 +93,6 @@
 		gap: 10px;
 	}
 
-	input {
-		width: 100%;
-	}
-
 	.input-container {
 		display: flex;
 		gap: 5px;

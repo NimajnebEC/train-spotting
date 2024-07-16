@@ -24,7 +24,9 @@ hr {
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="url"],
+input[type="password"] {
 	transition: border-color 250ms;
 	background-color: transparent;
 	border: 2px solid #ffffffa4;
@@ -32,6 +34,7 @@ input[type="number"] {
 	color: white;
 	outline: none;
 	padding: 5px;
+	width: 100%;
 
 	&:focus-within {
 		border-color: var(--a-2);
