@@ -1,25 +1,27 @@
-<script>
-	import { faTrain } from "@fortawesome/free-solid-svg-icons";
+<script lang="ts">
+	import Menu from "./Menu.svelte";
 	import SyncStatus from "./SyncStatus.svelte";
-	import Fa from "svelte-fa";
+
+	let height: number;
 </script>
 
-<header>
-	<div class="logo"><Fa icon={faTrain} /></div>
+<div style="height: {height}px" />
+
+<header bind:clientHeight={height}>
+	<Menu />
 	<SyncStatus />
 </header>
 
 <style lang="scss">
 	header {
 		border-bottom: 1px solid var(--bg-2);
+		background-color: var(--bg-1);
 		padding: 5px 10px;
 		align-items: end;
+		position: fixed;
 		display: flex;
+		width: 100%;
+		z-index: 2;
 		gap: 5px;
-	}
-
-	.logo {
-		color: var(--a-1);
-		font-size: 30px;
 	}
 </style>

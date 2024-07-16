@@ -105,9 +105,3 @@
 		<Fa icon={faTriangleExclamation} />
 	{/if}
 </button>
-
-<style lang="scss">
-	button {
-		background: transparent;
-	}
-</style>

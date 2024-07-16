@@ -39,9 +39,14 @@ input[type="number"] {
 }
 
 button {
+	background: none;
 	color: inherit;
 	border: none;
 	padding: 0;
+}
+
+a[href] {
+	color: white;
 }
 
 %button {
@@ -56,13 +61,13 @@ button {
 	}
 }
 
-button.primary {
+.primary {
 	--button-idle: var(--a-1);
 	--button-active: var(--a-2);
 	@extend %button;
 }
 
-button.secondary {
+.secondary {
 	--button-idle: var(--bg-2);
 	--button-active: var(--a-1);
 	@extend %button;
