@@ -1,10 +1,12 @@
 <script lang="ts">
+	import Navbar from "$lib/components/navbar/Navbar.svelte";
 	import { pwaInfo } from "virtual:pwa-info";
+	import type { PageData } from "./$types";
+	import { fly } from "svelte/transition";
 	import { onMount } from "svelte";
 	import "greset";
 
 	import "$lib/global.scss";
-	import Header from "$lib/components/header/Header.svelte";
 
 	onMount(async () => {
 		if (pwaInfo) {
@@ -27,13 +29,17 @@
 	});
 
 	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : "";
+
+	export let data: PageData;
 </script>
 
 <svelte:head>
 	{@html webManifestLink}
 </svelte:head>
 
-<Header />
-<main>
-	<slot />
-</main>
+{#key data.path[0]}
+	<main in:fly={{ x: -200, duration: 200, delay: 200 }} out:fly={{ x: 200, duration: 200 }}>
+		<slot />
+	</main>
+{/key}
+<Navbar />

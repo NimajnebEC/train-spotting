@@ -1,4 +1,5 @@
-<script lang="ts">
+<script lang="ts" context="module">
+	import { onDestroy, onMount } from "svelte";
 	import { onChange, state } from "$lib/util";
 	import { db } from "$lib/pouchdb";
 	import Fa from "svelte-fa";
@@ -10,16 +11,17 @@
 		faStarOfLife,
 		faTriangleExclamation,
 	} from "@fortawesome/free-solid-svg-icons";
-	import { onDestroy, onMount } from "svelte";
 
-	interface Credentials {
+	export interface Credentials {
 		address: string;
 		username: string;
 		password: string;
 	}
 
 	const credentials = state<Credentials | null>("credentials", null);
+</script>
 
+<script lang="ts">
 	let sync: PouchDB.Replication.Sync<{}> | null = null;
 	let remote: PouchDB.Database<{}> | null = null;
 

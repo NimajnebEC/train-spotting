@@ -10,6 +10,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
+		"@fortawesome/fontawesome-common-types": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
 		"@melt-ui/pp": "^0.3.2",
 		"@melt-ui/svelte": "^0.83.0",
