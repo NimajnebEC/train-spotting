@@ -11,7 +11,7 @@ export function onChange(fn: () => void) {
 	});
 }
 
-export function state<T>(key: string, initialValue: T) {
+export function persist<T>(key: string, initialValue: T) {
 	let value = JSON.parse(localStorage.getItem(key) || JSON.stringify(initialValue));
 
 	return {

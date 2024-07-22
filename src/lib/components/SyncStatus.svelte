@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import { onDestroy, onMount } from "svelte";
-	import { onChange, state } from "$lib/util";
+	import { onChange, persist } from "$lib/util";
 	import { db } from "$lib/pouchdb";
 	import Fa from "svelte-fa";
 	import {
@@ -18,7 +18,7 @@
 		password: string;
 	}
 
-	const credentials = state<Credentials | null>("credentials", null);
+	const credentials = persist<Credentials | null>("credentials", null);
 </script>
 
 <script lang="ts">

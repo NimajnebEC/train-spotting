@@ -52,7 +52,7 @@
 
 		.heading {
 			grid-area: auto / 1 / auto / 3;
-			background-color: var(--bg-2);
+			background-color: var(--bg-3);
 			border-radius: 5px;
 			padding: 5px 5px;
 		}

@@ -1,6 +1,7 @@
 :root {
 	--bg-1: #232222;
-	--bg-2: #808080;
+	--bg-2: #333333;
+	--bg-3: #808080;
 
 	--a-1: #9955ff;
 	--a-2: #b685ff;
@@ -28,9 +29,9 @@ input[type="number"],
 input[type="url"],
 input[type="password"] {
 	transition: border-color 250ms;
-	background-color: transparent;
 	border: 2px solid #ffffffa4;
 	border-radius: 5px;
+	background: none;
 	color: white;
 	outline: none;
 	padding: 5px;
@@ -64,16 +65,19 @@ a[href] {
 	}
 }
 
-.primary {
-	--button-idle: var(--a-1);
-	--button-active: var(--a-2);
-	@extend %button;
-}
+button,
+a[href] {
+	&.primary {
+		--button-idle: var(--a-1);
+		--button-active: var(--a-2);
+		@extend %button;
+	}
 
-.secondary {
-	--button-idle: var(--bg-2);
-	--button-active: var(--a-1);
-	@extend %button;
+	&.secondary {
+		--button-idle: var(--bg-3);
+		--button-active: var(--a-1);
+		@extend %button;
+	}
 }
 
 label {

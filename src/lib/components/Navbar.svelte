@@ -1,23 +1,24 @@
 <script lang="ts">
 	import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
 	import { faCog, faHome } from "@fortawesome/free-solid-svg-icons";
+	import { page } from "$app/stores";
 	import Fa from "svelte-fa";
 
 	const entries: { href: string; label: string; icon: IconDefinition }[] = [
 		{ href: "/", label: "Home", icon: faHome },
-		{ href: "/settings", label: "Settings", icon: faCog },
+		{ href: "/settings/connection", label: "Settings", icon: faCog },
 	];
 </script>
 
 <nav>
 	{#each entries as { href, icon, label }}
-		<a {href}><Fa size="lg" {icon} /><span>{label}</span></a>
+		<a {href} class:active={$page.url.pathname == href}><Fa {icon} /><span>{label}</span></a>
 	{/each}
 </nav>
 
 <style lang="scss">
 	nav {
-		border-top: 1px solid var(--bg-2);
+		border-top: 1px solid var(--bg-3);
 		background-color: var(--bg-1);
 		align-items: end;
 		position: fixed;
@@ -27,15 +28,22 @@
 		bottom: 0;
 
 		a {
+			transition: color 200ms;
 			flex-direction: column;
 			align-items: center;
+			color: var(--bg-3);
 			padding: 5px 10px;
+			font-size: 20px;
 			display: flex;
 			flex-grow: 1;
 			gap: 5px;
 
+			&.active {
+				color: white;
+			}
+
 			span {
-				font-size: 12px;
+				font-size: 10px;
 			}
 		}
 	}

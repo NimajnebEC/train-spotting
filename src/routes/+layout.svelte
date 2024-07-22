@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Navbar from "$lib/components/navbar/Navbar.svelte";
+	import Navbar from "$lib/components/Navbar.svelte";
 	import { pwaInfo } from "virtual:pwa-info";
 	import type { PageData } from "./$types";
 	import { fly } from "svelte/transition";
