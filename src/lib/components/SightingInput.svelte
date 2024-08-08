@@ -2,13 +2,12 @@
 	import { faHashtag, faFont, faTrash } from "@fortawesome/free-solid-svg-icons";
 	import { slide } from "svelte/transition";
 	import { sineIn } from "svelte/easing";
+	import { persist } from "$lib/util";
 	import { db } from "$lib/pouchdb";
 	import Fa from "svelte-fa";
 
-	let location: string = window.localStorage.getItem("location") ?? "";
+	const location = persist("location", "");
 	let inputs: { id: string; simple: boolean; bind?: HTMLInputElement }[] = [];
-
-	$: window.localStorage.setItem("location", location);
 
 	function updateInputs() {
 		if (!inputs.some((i) => i.bind?.value == ""))
@@ -41,8 +40,8 @@
 				.map((e, i) => ({
 					_id: (new Date().getTime() + i).toString(),
 					classification: e.bind!.value,
+					location: location.value,
 					type: "sighting",
-					location,
 				})),
 		);
 
@@ -56,7 +55,7 @@
 <div class="container">
 	<label>
 		Location:
-		<input type="text" autocomplete="off" placeholder="Brighton" bind:value={location} />
+		<input type="text" autocomplete="off" placeholder="Brighton" bind:value={location.value} />
 	</label>
 	<!-- svelte-ignore a11y-label-has-associated-control -->
 	<label>

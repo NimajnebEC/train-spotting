@@ -18,7 +18,7 @@ export function persist<T>(key: string, initialValue: T) {
 		get value(): T {
 			return value;
 		},
-		set(v: T) {
+		set value(v: T) {
 			localStorage.setItem(key, JSON.stringify(v));
 			value = v;
 		},
