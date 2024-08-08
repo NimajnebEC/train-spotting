@@ -12,15 +12,15 @@ export function onChange(fn: () => void) {
 }
 
 export function persist<T>(key: string, initialValue: T) {
-	let value = JSON.parse(localStorage.getItem(key) || JSON.stringify(initialValue));
+	let value = JSON.parse(localStorage.getItem(key) ?? "null") ?? initialValue;
 
 	return {
-		get value() {
+		get value(): T {
 			return value;
 		},
-		set value(newValue) {
-			value = newValue;
-			localStorage.setItem(key, JSON.stringify(newValue));
+		set(v: T) {
+			localStorage.setItem(key, JSON.stringify(v));
+			value = v;
 		},
 	};
 }
