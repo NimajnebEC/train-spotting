@@ -50,7 +50,7 @@
 		</div>
 	</form>
 	{#if $error}
-		<div class="error"><Fa icon={faCircleExclamation} /> {$error}</div>
+		<span class="alert red"><Fa icon={faCircleExclamation} /> {$error}</span>
 	{/if}
 </div>
 
@@ -61,20 +61,7 @@
 		gap: 10px;
 	}
 
-	p.secondary {
-		color: var(--bg-4);
-	}
-
 	hr {
 		margin: 10px 0;
-	}
-
-	.error {
-		color: var(--r-2);
-		margin-top: 10px;
-
-		:global(svg) {
-			color: var(--r-1);
-		}
 	}
 </style>

@@ -1,4 +1,5 @@
 :root {
+	--bg-0: #181717;
 	--bg-1: #232222;
 	--bg-2: #333333;
 	--bg-3: #444444;
@@ -9,6 +10,9 @@
 
 	--r-1: #ff5555;
 	--r-2: #ff8585;
+
+	--g-1: #4bc24b;
+	--g-2: #8bda8b;
 }
 
 body {
@@ -82,9 +86,39 @@ a[href] {
 		--button-active: var(--a-1);
 		@extend %button;
 	}
+
+	&.link {
+		text-decoration: underline;
+		transition: color 250ms;
+		color: var(--a-2);
+
+		&:active {
+			color: var(--a-1);
+		}
+	}
 }
 
 label {
 	text-transform: lowercase;
 	font-variant: small-caps;
+}
+
+p.secondary {
+	color: var(--bg-4);
+}
+
+span.alert {
+	&.green {
+		--icon-color: var(--g-1);
+		--text-color: var(--g-2);
+	}
+	&.red {
+		--icon-color: var(--r-1);
+		--text-color: var(--r-2);
+	}
+
+	color: var(--text-color);
+	svg {
+		color: var(--icon-color);
+	}
 }

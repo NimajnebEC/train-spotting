@@ -7,14 +7,14 @@
 	let storageUsage: number;
 	onMount(async () => {
 		const { quota, usage } = await navigator.storage.estimate();
-		if (quota && usage) storageUsage = Math.round((usage / quota) * 100);
+		if (quota && usage) storageUsage = Math.ceil((usage / quota) * 100);
 	});
 </script>
 
 <h1>Settings</h1>
 <hr />
 <div class="group">
-	<a href="/settings/connection">
+	<a href="/settings/replication">
 		<Fa icon={faPlug} />
 		<span class="title">Replication</span>
 		<span class="info"><ReplicationStatus mode="connection" icon={false} /></span>

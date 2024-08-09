@@ -16,6 +16,9 @@ export function onChange(fn: () => void) {
 	});
 }
 
+export const persistent = writable(false);
+navigator.storage.persist().then(persistent.set);
+
 // * Replication Functionality
 
 export interface ReplicationStatus {
