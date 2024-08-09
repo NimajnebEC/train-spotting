@@ -1,3 +1,4 @@
+import { writable, type Readable, type Writable } from "svelte/store";
 import { onMount, onDestroy } from "svelte";
 import { db } from "$lib/pouchdb";
 
@@ -6,21 +7,26 @@ export function onChange(fn: () => void) {
 
 	onDestroy(() => listener?.cancel());
 	onMount(() => {
-		listener = db.changes({ live: true }).on("change", fn);
+		listener = db.changes({ live: true, since: "now" }).on("change", fn);
 		fn();
 	});
 }
 
-export function persist<T>(key: string, initialValue: T) {
-	let value = JSON.parse(localStorage.getItem(key) ?? "null") ?? initialValue;
-
+export function gettable<T, S>(store: S & Readable<T>): { get: () => T } & S {
+	let value: T;
+	store.subscribe((v) => (value = v));
 	return {
-		get value(): T {
+		...store,
+		get(): T {
 			return value;
 		},
-		set value(v: T) {
-			localStorage.setItem(key, JSON.stringify(v));
-			value = v;
-		},
 	};
+}
+
+export function persist<T>(key: string): Writable<T | undefined>;
+export function persist<T>(key: string, initial: T): Writable<T>;
+export function persist<T>(key: string, initial?: T): Writable<T> {
+	const store = writable(JSON.parse(localStorage.getItem(key) ?? "null") ?? initial);
+	store.subscribe((v) => (v === undefined ? null : localStorage.setItem(key, JSON.stringify(v))));
+	return store;
 }
