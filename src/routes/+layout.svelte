@@ -7,6 +7,7 @@
 	import "greset";
 
 	import "$lib/global.scss";
+	import Loading from "$lib/components/Loading.svelte";
 
 	onMount(async () => {
 		if (pwaInfo) {
@@ -32,6 +33,8 @@
 
 	export let data: PageData;
 </script>
+
+<Loading />
 
 <svelte:head>
 	{@html webManifestLink}

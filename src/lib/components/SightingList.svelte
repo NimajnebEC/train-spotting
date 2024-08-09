@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { SightingDoc } from "./types";
-	import { onChange } from "$lib/util";
+	import { onChange } from "$lib/pouchdb";
 	import { db } from "$lib/pouchdb";
 
 	let days: [string, SightingDoc[]][] = [];
@@ -30,7 +30,7 @@
 			}),
 			v,
 		]) as [string, SightingDoc[]][];
-	}, true);
+	});
 </script>
 
 <div class="list">

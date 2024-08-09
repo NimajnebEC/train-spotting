@@ -7,11 +7,10 @@
 		faPlug,
 		faRotate,
 		faSatelliteDish,
-		faSpinner,
 		faStarOfLife,
 	} from "@fortawesome/free-solid-svg-icons";
 
-	let { connection, sync } = status;
+	const { connection, sync } = status;
 </script>
 
 <div>
