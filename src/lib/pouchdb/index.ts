@@ -1,4 +1,5 @@
-import { writable, type Writable } from "svelte/store";
+import { derived, writable, type Readable, type Writable } from "svelte/store";
+import { gettable, persist } from "$lib/util";
 import "./pouchdb";
 import "./pouchdb.find";
 
@@ -8,16 +9,31 @@ export const db = new PouchDB("spotter", { auto_compaction: true });
 
 export interface ReplicationStatus {
 	connection: Writable<"disconnected" | "connected" | "connecting">;
-	sync: Writable<"outdated" | "synced" | "syncing">;
+	sync: Readable<"outdated" | "synced" | "syncing">;
+}
+
+export interface ReplicationCredentials {
+	address: string;
+	username: string;
+	password: string;
 }
 
 let remote: PouchDB.Database | null = null;
 let task: PouchDB.Replication.Sync<{}> | null = null;
 
-export const status: ReplicationStatus = { connection: writable("disconnected"), sync: writable("outdated") };
+export const credentials = gettable(persist<ReplicationCredentials>("replication-credentials"));
+const outdated = persist<boolean>("replication-outdated", false);
+const synchronising = writable<boolean>(false);
 
-export async function connect(address: string, username: string, password: string) {
-	// Clean up old connection
+export const error = writable<string | null>(null);
+export const status: ReplicationStatus = {
+	sync: derived([synchronising, outdated], ([s, o]) => (s ? "syncing" : o ? "outdated" : "synced")),
+	connection: writable("disconnected"),
+};
+
+db.changes({ live: true, since: "now" }).on("change", () => outdated.set(true));
+
+export async function disconnect() {
 	await new Promise<void>((resolve) => {
 		if (task === null) return resolve();
 		task.on("complete", () => {
@@ -30,9 +46,16 @@ export async function connect(address: string, username: string, password: strin
 
 	await remote?.close();
 	remote = null;
+}
+
+export async function connect() {
+	const info = credentials.get();
+	if (!info) return;
+
+	await disconnect();
 
 	// Setup new connection
-	remote = new PouchDB(address, { auth: { username, password } });
+	remote = new PouchDB(info.address, { auth: info });
 	status.connection.set("connecting");
 
 	// Test connection
@@ -51,11 +74,12 @@ export async function connect(address: string, username: string, password: strin
 		.sync(remote, { live: true })
 		.on("paused", (err) => {
 			console.log("paused", err);
-			status.sync.set("synced");
+			synchronising.set(false);
+			outdated.set(false);
 		})
 		.on("active", () => {
 			console.log("active");
-			status.sync.set("syncing");
+			synchronising.set(true);
 		})
 		.on("error", (err) => {
 			console.log("error", err);
