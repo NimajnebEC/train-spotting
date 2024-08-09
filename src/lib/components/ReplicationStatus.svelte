@@ -8,33 +8,37 @@
 		faRotate,
 		faSatelliteDish,
 		faStarOfLife,
+		type IconDefinition,
 	} from "@fortawesome/free-solid-svg-icons";
 
+	export let mode: "sync" | "connection";
+	export let icon: boolean = true;
+
 	const { connection, sync } = status;
+
+	$: s = (
+		{
+			connecting: ["Connecting", faSatelliteDish],
+			disconnected: ["Disconnected", faPlug],
+			connected: ["Connected", faGlobe],
+			outdated: ["Unsaved Changes", faStarOfLife],
+			synced: ["Synchronised", faCloud],
+			syncing: ["Synchronizing", faRotate],
+		} as Record<string, [string, IconDefinition]>
+	)[mode == "sync" ? $sync : mode == "connection" ? $connection : ""];
 </script>
 
-<div>
-	{#if $connection == "disconnected"}
-		<Fa icon={faPlug} />
-		Disconnected
-	{:else if $connection == "connected"}
-		<Fa icon={faGlobe} />
-		Connected
-	{:else if $connection == "connecting"}
-		<Fa icon={faSatelliteDish} />
-		Connecting
-	{/if}
-</div>
+<span>
+	{#if icon}
+		<span class="icon"><Fa icon={s[1]} /></span>
+	{/if}{s[0]}
+</span>
 
-<div>
-	{#if $sync == "outdated"}
-		<Fa icon={faStarOfLife} />
-		Unsaved Changes
-	{:else if $sync == "synced"}
-		<Fa icon={faCloud} />
-		Synchronised
-	{:else if $sync == "syncing"}
-		<Fa icon={faRotate} />
-		Synchronizing
-	{/if}
-</div>
+<style lang="scss">
+	.icon {
+		display: inline-block;
+		text-align: center;
+		margin-right: 5px;
+		width: 20px;
+	}
+</style>

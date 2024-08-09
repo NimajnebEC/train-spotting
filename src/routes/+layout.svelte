@@ -8,6 +8,7 @@
 
 	import "$lib/global.scss";
 	import Loading from "$lib/components/Loading.svelte";
+	import Backbar from "$lib/components/Backbar.svelte";
 
 	onMount(async () => {
 		if (pwaInfo) {
@@ -34,15 +35,21 @@
 	export let data: PageData;
 </script>
 
-<Loading />
-
 <svelte:head>
 	{@html webManifestLink}
 </svelte:head>
 
-{#key data.path[0]}
-	<main in:fly={{ x: -200, duration: 200, delay: 200 }} out:fly={{ x: 200, duration: 200 }}>
-		<slot />
-	</main>
-{/key}
+<Loading />
 <Navbar />
+
+{#if data.path.length > 1}
+	<Backbar />
+{/if}
+
+<div style="overflow-x: hidden;">
+	{#key data.path}
+		<main in:fly={{ x: -200, duration: 200, delay: 200 }} out:fly={{ x: 200, duration: 200 }}>
+			<slot />
+		</main>
+	{/key}
+</div>

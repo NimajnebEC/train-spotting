@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SightingDoc } from "./types";
+	import type { SightingDoc } from "../pouchdb/types";
 	import { onChange } from "$lib/pouchdb";
 	import { db } from "$lib/pouchdb";
 
@@ -37,36 +37,35 @@
 	{#each days as [day, sightings]}
 		<div class="heading">{day}</div>
 		{#each sightings as sighting}
-			<div class="identity">{sighting.classification}</div>
-			<div class="location">{sighting.location}</div>
+			<a class="sighting" href="/sightings/{sighting._id}">
+				<span>{sighting.classification}</span>
+				<span class="location">{sighting.location}</span>
+			</a>
 		{/each}
 	{/each}
 </div>
 
 <style lang="scss">
 	.list {
-		grid-template-rows: repeat(auto, auto);
-		grid-template-columns: repeat(2, auto);
-		display: grid;
-		gap: 5px;
+		flex-direction: column;
+		display: flex;
+		width: 100%;
 
 		.heading {
 			grid-area: auto / 1 / auto / 3;
-			background-color: var(--bg-3);
+			background-color: var(--bg-4);
 			border-radius: 5px;
 			padding: 5px 5px;
 		}
 
-		.identity {
-			padding-left: 5px;
+		.sighting {
+			white-space: nowrap;
+			padding: 2.5px 3px;
 		}
 
 		.location {
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			padding-right: 5px;
 			text-align: right;
-			overflow: hidden;
+			float: right;
 		}
 	}
 </style>

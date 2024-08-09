@@ -6,19 +6,21 @@
 
 	const entries: { href: string; label: string; icon: IconDefinition }[] = [
 		{ href: "/", label: "Home", icon: faHome },
-		{ href: "/settings/connection", label: "Settings", icon: faCog },
+		{ href: "/settings", label: "Settings", icon: faCog },
 	];
 </script>
 
 <nav>
 	{#each entries as { href, icon, label }}
-		<a {href} class:active={$page.url.pathname == href}><Fa {icon} /><span>{label}</span></a>
+		<a {href} class:active={$page.data.path[0] == href.split("/")[1]}>
+			<Fa {icon} /><span>{label}</span>
+		</a>
 	{/each}
 </nav>
 
 <style lang="scss">
 	nav {
-		border-top: 1px solid var(--bg-3);
+		border-top: 1px solid var(--bg-4);
 		background-color: var(--bg-1);
 		align-items: end;
 		position: fixed;
@@ -31,7 +33,7 @@
 			transition: color 200ms;
 			flex-direction: column;
 			align-items: center;
-			color: var(--bg-3);
+			color: var(--bg-4);
 			padding: 5px 10px;
 			font-size: 20px;
 			display: flex;

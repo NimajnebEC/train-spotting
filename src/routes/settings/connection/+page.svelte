@@ -2,8 +2,8 @@
 	import ReplicationStatus from "$lib/components/ReplicationStatus.svelte";
 	import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 	import { connect, credentials, disconnect as close, status } from "$lib/pouchdb";
-	import Fa from "svelte-fa";
 	import { spinner } from "$lib/components/Loading.svelte";
+	import Fa from "svelte-fa";
 
 	const { error } = status;
 	let address = $credentials?.address ?? "";
@@ -26,7 +26,8 @@
 	<p class="secondary">
 		CouchDB database connection credentials for backup and synchronising data between devices.
 	</p>
-	<ReplicationStatus />
+	<ReplicationStatus mode="connection" />
+	<ReplicationStatus mode="sync" />
 	<hr />
 	<form class="container" on:submit|preventDefault={submit}>
 		<label>
@@ -61,7 +62,7 @@
 	}
 
 	p.secondary {
-		color: var(--bg-3);
+		color: var(--bg-4);
 	}
 
 	hr {
