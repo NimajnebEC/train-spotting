@@ -1,4 +1,9 @@
 import { writable, type Readable, type Writable } from "svelte/store";
+import { SvelteComponent } from "svelte";
+
+function isWritable<T>(store: Readable<T>): store is Writable<T> {
+	return (<Writable<any>>store).set !== undefined;
+}
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 

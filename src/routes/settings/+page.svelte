@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ReplicationStatus from "$lib/components/ReplicationStatus.svelte";
-	import { faBoxArchive, faChevronRight, faPlug } from "@fortawesome/free-solid-svg-icons";
+	import { faBoxArchive, faChevronRight, faPalette, faPlug } from "@fortawesome/free-solid-svg-icons";
 	import { onMount } from "svelte";
 	import Fa from "svelte-fa";
 
@@ -24,6 +24,11 @@
 		<Fa icon={faBoxArchive} />
 		<span class="title">Storage</span>
 		{#if storageUsage !== undefined}<span class="info">{storageUsage}% Used</span>{/if}
+		<span class="chevron"><Fa icon={faChevronRight} /></span>
+	</a>
+	<a href="/settings/appearance">
+		<Fa icon={faPalette} />
+		<span class="title">Appearance</span>
 		<span class="chevron"><Fa icon={faChevronRight} /></span>
 	</a>
 </div>
