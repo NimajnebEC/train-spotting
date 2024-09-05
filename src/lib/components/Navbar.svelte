@@ -1,8 +1,11 @@
-<script lang="ts">
+<script lang="ts" context="module">
 	import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
 	import { faCog, faHome } from "@fortawesome/free-solid-svg-icons";
+	import { persist } from "$lib/util";
 	import { page } from "$app/stores";
 	import Fa from "svelte-fa";
+
+	export const padding = persist("navbar-padding", 0);
 
 	const entries: { href: string; label: string; icon: IconDefinition }[] = [
 		{ href: "/", label: "Home", icon: faHome },
@@ -10,7 +13,7 @@
 	];
 </script>
 
-<nav>
+<nav style="padding-bottom: {$padding}px;">
 	{#each entries as { href, icon, label }}
 		<a {href} class:active={$page.data.path[0] == href.split("/")[1]}>
 			<Fa {icon} /><span>{label}</span>

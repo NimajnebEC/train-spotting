@@ -1,15 +1,15 @@
 <script lang="ts">
-	import Slider from "$lib/components/Slider.svelte";
-	import { persist } from "$lib/util";
 	import { faArrowsLeftRightToLine, faGripLinesVertical } from "@fortawesome/free-solid-svg-icons";
-
-	const navbarMargin = persist("navbar-margin", 0);
+	import { padding } from "$lib/components/Navbar.svelte";
+	import Slider from "$lib/components/Slider.svelte";
 </script>
 
 <!-- svelte-ignore a11y-label-has-associated-control -->
 <label>
-	Navbar Margin
-	<Slider bind:value={$navbarMargin} icons={[faGripLinesVertical, faArrowsLeftRightToLine]} />
+	Navbar Padding
+	<Slider
+		bind:value={$padding}
+		icons={[faGripLinesVertical, faArrowsLeftRightToLine]}
+		props={{ max: 20, step: 2 }}
+	/>
 </label>
-
-{$navbarMargin}

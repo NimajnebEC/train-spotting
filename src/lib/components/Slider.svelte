@@ -1,25 +1,21 @@
 <script lang="ts">
-	import { createSlider, melt, type CreateSliderProps } from "@melt-ui/svelte";
+	import { createSlider, melt, createSync, type CreateSliderProps } from "@melt-ui/svelte";
 	import { type IconDefinition } from "@fortawesome/free-solid-svg-icons";
 	import { propertyStore } from "svelte-writable-derived";
 	import Fa from "svelte-fa";
 
 	export let icons: [IconDefinition, IconDefinition];
-	export let props: CreateSliderProps = {
-		step: 1,
-		max: 10,
-		min: 0,
-	};
+	export let props: CreateSliderProps;
+	export let value: number;
 
 	const {
 		states,
 		elements: { root, range, thumbs, ticks },
 	} = createSlider(props);
 
-	const value = propertyStore(states.value, 0);
+	const sync = createSync({ value: propertyStore(states.value, 0) });
+	$: sync.value(value, (v) => (value = v));
 </script>
-
-{$value}
 
 <div class="container">
 	<Fa icon={icons[0]} />
