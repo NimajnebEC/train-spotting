@@ -4,9 +4,10 @@
 	import { propertyStore } from "svelte-writable-derived";
 	import Fa from "svelte-fa";
 
-	export let icons: [IconDefinition, IconDefinition];
+	export let icons: [IconDefinition, IconDefinition] | undefined = undefined;
 	export let props: CreateSliderProps;
-	export let value: number;
+	export let solid: boolean = false;
+	export let value: number = 0;
 
 	const {
 		states,
@@ -18,10 +19,14 @@
 </script>
 
 <div class="container">
-	<Fa icon={icons[0]} />
+	{#if icons}
+		<Fa icon={icons[0]} />
+	{/if}
 	<span use:melt={$root} class="root">
-		<span class="slider">
-			<span use:melt={$range} />
+		<span class="track">
+			{#if !solid}
+				<span use:melt={$range} />
+			{/if}
 		</span>
 
 		{#if $ticks.length - 1 <= 10}
@@ -32,7 +37,9 @@
 
 		<span use:melt={$thumbs[0]} class="thumb" />
 	</span>
-	<Fa icon={icons[1]} />
+	{#if icons}
+		<Fa icon={icons[1]} />
+	{/if}
 </div>
 
 <style lang="scss">
@@ -53,11 +60,15 @@
 		flex-grow: 1;
 	}
 
-	.slider {
+	.track {
 		background-color: var(--bg-0);
 		border-radius: 5px;
 		height: 5px;
 		width: 100%;
+
+		&:empty {
+			background-color: var(--a-1);
+		}
 
 		span {
 			background-color: var(--a-1);
@@ -67,10 +78,14 @@
 	}
 
 	.tick {
-		background-color: white;
+		background-color: #535353;
 		border-radius: 100%;
 		height: 3px;
 		width: 3px;
+
+		&[data-bounded] {
+			background-color: white;
+		}
 	}
 
 	.thumb {
